@@ -1,3 +1,22 @@
+[project]
+name = "ahoum"
+version = "1.0.0"
+description = "Ahoum Events Platform — Django REST API"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.0",
+    "djangorestframework>=3.15",
+    "djangorestframework-simplejwt",
+    "django-environ",
+    "django-filter",
+    "django-redis",
+    "celery[redis]",
+    "redis",
+    "psycopg2-binary",
+    "drf-spectacular",
+    "gunicorn",
+]
+
 [tool.vercel]
 entrypoint = "ahoum.wsgi:application"
 
