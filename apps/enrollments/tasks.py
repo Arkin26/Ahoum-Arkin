@@ -2,6 +2,7 @@ import logging
 from datetime import timedelta
 
 from celery import shared_task
+from django.conf import settings
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
@@ -64,9 +65,16 @@ def send_event_reminder(enrollment_id):
 
 
 def schedule_enrollment_emails(enrollment):
-    send_enrollment_confirmation.delay(str(enrollment.id))
-    send_followup_email.apply_async(args=[str(enrollment.id)], countdown=3600)
+    enrollment_id = str(enrollment.id)
+
+    # Serverless (Vercel): no Celery worker or broker scheduling — log confirmation only.
+    if getattr(settings, "CELERY_TASK_ALWAYS_EAGER", False):
+        send_enrollment_confirmation(enrollment_id)
+        return
+
+    send_enrollment_confirmation.delay(enrollment_id)
+    send_followup_email.apply_async(args=[enrollment_id], countdown=3600)
 
     reminder_at = enrollment.event.starts_at - timedelta(hours=1)
     if reminder_at > timezone.now():
-        send_event_reminder.apply_async(args=[str(enrollment.id)], eta=reminder_at)
+        send_event_reminder.apply_async(args=[enrollment_id], eta=reminder_at)
