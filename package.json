@@ -1,0 +1,11 @@
+{
+  "name": "ahoum-events-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ahoum Events Platform — Django REST API",
+  "scripts": {
+    "dev": "bash scripts/dev.sh",
+    "stop": "docker compose -f docker-compose.yml -f docker-compose.dev.yml down",
+    "logs": "docker compose -f docker-compose.yml -f docker-compose.dev.yml logs -f"
+  }
+}

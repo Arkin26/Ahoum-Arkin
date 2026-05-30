@@ -1,0 +1,5 @@
+[tool.vercel]
+entrypoint = "ahoum.wsgi:application"
+
+[tool.vercel.scripts]
+build = "bash scripts/vercel-build.sh"

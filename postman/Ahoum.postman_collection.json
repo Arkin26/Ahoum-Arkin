@@ -1,0 +1,220 @@
+{
+  "info": {
+    "name": "Ahoum Events Platform",
+    "description": "Postman collection for the Ahoum backend assignment.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key": "base_url", "value": "http://localhost:8000"},
+    {"key": "facilitator_token", "value": ""},
+    {"key": "seeker_token", "value": ""},
+    {"key": "event_id", "value": ""},
+    {"key": "enrollment_id", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup Facilitator",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"facilitator2@ahoum.com\",\n  \"password\": \"Test1234!\",\n  \"role\": \"facilitator\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/signup/"
+          }
+        },
+        {
+          "name": "Verify Email Facilitator",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"facilitator2@ahoum.com\",\n  \"otp\": \"PASTE_OTP_FROM_LOGS\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/verify-email/"
+          }
+        },
+        {
+          "name": "Login Facilitator",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"facilitator2@ahoum.com\",\n  \"password\": \"Test1234!\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/login/"
+          }
+        },
+        {
+          "name": "Signup Seeker",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seeker2@ahoum.com\",\n  \"password\": \"Test1234!\",\n  \"role\": \"seeker\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/signup/"
+          }
+        },
+        {
+          "name": "Verify Email Seeker",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seeker2@ahoum.com\",\n  \"otp\": \"PASTE_OTP_FROM_LOGS\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/verify-email/"
+          }
+        },
+        {
+          "name": "Login Seeker",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seeker2@ahoum.com\",\n  \"password\": \"Test1234!\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/login/"
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"PASTE_REFRESH_TOKEN\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/refresh/"
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{seeker_token}}"}],
+            "url": "{{base_url}}/api/auth/me/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Create Event (Facilitator)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{facilitator_token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Hindi Meditation Circle\",\n  \"description\": \"Evening meditation in Hindi.\",\n  \"language\": \"Hindi\",\n  \"location\": \"Mumbai\",\n  \"starts_at\": \"2026-08-01T09:00:00Z\",\n  \"ends_at\": \"2026-08-01T11:00:00Z\",\n  \"capacity\": 20\n}"
+            },
+            "url": "{{base_url}}/api/events/"
+          }
+        },
+        {
+          "name": "Search Events q=meditation",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/events/?q=meditation"
+          }
+        },
+        {
+          "name": "Filter language=Hindi",
+          "request": {"method": "GET", "url": "{{base_url}}/api/events/?language=Hindi"}
+        },
+        {
+          "name": "Filter location=Mumbai",
+          "request": {"method": "GET", "url": "{{base_url}}/api/events/?location=Mumbai"}
+        },
+        {
+          "name": "Filter starts_after",
+          "request": {"method": "GET", "url": "{{base_url}}/api/events/?starts_after=2025-06-01T00:00:00Z"}
+        },
+        {
+          "name": "My Events (Facilitator)",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{facilitator_token}}"}],
+            "url": "{{base_url}}/api/events/my/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enrollments",
+      "item": [
+        {
+          "name": "Enroll (Seeker)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{seeker_token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"{{event_id}}\"\n}"
+            },
+            "url": "{{base_url}}/api/enrollments/"
+          }
+        },
+        {
+          "name": "List Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{seeker_token}}"}],
+            "url": "{{base_url}}/api/enrollments/"
+          }
+        },
+        {
+          "name": "List Upcoming Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{seeker_token}}"}],
+            "url": "{{base_url}}/api/enrollments/?type=upcoming"
+          }
+        },
+        {
+          "name": "List Past Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{seeker_token}}"}],
+            "url": "{{base_url}}/api/enrollments/?type=past"
+          }
+        },
+        {
+          "name": "Event Enrollments (Facilitator)",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{facilitator_token}}"}],
+            "url": "{{base_url}}/api/enrollments/event/{{event_id}}/"
+          }
+        },
+        {
+          "name": "Cancel Enrollment",
+          "request": {
+            "method": "PATCH",
+            "header": [{"key": "Authorization", "value": "Bearer {{seeker_token}}"}],
+            "url": "{{base_url}}/api/enrollments/{{enrollment_id}}/cancel/"
+          }
+        }
+      ]
+    }
+  ]
+}

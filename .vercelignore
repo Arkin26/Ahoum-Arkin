@@ -1,0 +1,13 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.git/
+docker-compose*.yml
+Dockerfile
+scripts/dev.sh
+.venv
+htmlcov/
+.pytest_cache/
+.DS_Store
